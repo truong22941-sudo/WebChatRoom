@@ -1,0 +1,35 @@
+[
+  {
+    "Type": "CHAT_GROUP",
+    "Sender": "T\u01B0\u1EDDng",
+    "Room": "GiaiTri",
+    "Receiver": null,
+    "Content": "hi bro",
+    "FileName": null,
+    "Timestamp": "00:20",
+    "OnlineUsers": null,
+    "Rooms": null
+  },
+  {
+    "Type": "CHAT_GROUP",
+    "Sender": "minh",
+    "Room": "GiaiTri",
+    "Receiver": null,
+    "Content": "sau \u0111\u1EA5y",
+    "FileName": null,
+    "Timestamp": "00:20",
+    "OnlineUsers": null,
+    "Rooms": null
+  },
+  {
+    "Type": "CHAT_GROUP",
+    "Sender": "minh",
+    "Room": "GiaiTri",
+    "Receiver": null,
+    "Content": "c\u00F3 chuy\u1EC7n g\u00EC kh\u00F4ng",
+    "FileName": null,
+    "Timestamp": "00:20",
+    "OnlineUsers": null,
+    "Rooms": null
+  }
+]

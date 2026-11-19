@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Chat Room - Lập Trình Mạng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Màn hình Đăng nhập -->
+    <div id="login-overlay" class="overlay">
+        <div class="login-card">
+            <h2>Web Chat Room</h2>
+            <p>Nhập tên hiển thị để tham gia trò chuyện</p>
+            <input type="text" id="username-input" placeholder="Ví dụ: Truong, Minh..." maxlength="20" autocomplete="off">
+            <button id="login-btn">Vào phòng chat</button>
+            <p id="login-error" class="error-text"></p>
+        </div>
+    </div>
+
+    <!-- Giao diện Chat chính -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Cột trái: Danh sách phòng & Người dùng online -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <span class="status-dot online"></span>
+                    <strong id="current-user-label">User</strong>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">
+                    <span>PHÒNG CHAT NHÓM</span>
+                    <button id="create-room-btn" title="Tạo phòng mới">+</button>
+                </div>
+                <ul id="room-list" class="nav-list"></ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">
+                    <span>TRỰC TUYẾN (<span id="online-count">0</span>)</span>
+                </div>
+                <ul id="user-list" class="nav-list"></ul>
+            </div>
+        </aside>
+
+        <!-- Khung chat bên phải -->
+        <main class="chat-main">
+            <header class="chat-header">
+                <div>
+                    <h3 id="chat-title"># General</h3>
+                    <span id="chat-subtitle" class="subtitle">Phòng chat nhóm</span>
+                </div>
+            </header>
+
+            <div id="messages-box" class="messages-box"></div>
+
+            <div id="typing-indicator" class="typing-indicator"></div>
+
+            <form id="chat-form" class="chat-input-area">
+                <input type="file" id="file-input" class="hidden">
+                <button type="button" id="attach-btn" class="icon-btn" title="Gửi ảnh hoặc tệp">📎</button>
+                <input type="text" id="message-input" placeholder="Nhập tin nhắn..." autocomplete="off">
+                <button type="submit" class="send-btn">Gửi</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
