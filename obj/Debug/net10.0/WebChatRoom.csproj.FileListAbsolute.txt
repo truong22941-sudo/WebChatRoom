@@ -51,9 +51,6 @@ D:\WebChatRoom\obj\Debug\net10.0\rjimswa.dswa.cache.json
 D:\WebChatRoom\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 D:\WebChatRoom\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
 D:\WebChatRoom\obj\Debug\net10.0\scopedcss\bundle\WebChatRoom.styles.css
-D:\WebChatRoom\obj\Debug\net10.0\compressed\izn2pqqjuh-{0}-0u29zyfu6j-0u29zyfu6j.gz
-D:\WebChatRoom\obj\Debug\net10.0\compressed\w1v62nubwr-{0}-t4c95qx1pa-t4c95qx1pa.gz
-D:\WebChatRoom\obj\Debug\net10.0\compressed\snhze1kyab-{0}-lyycqich2x-lyycqich2x.gz
 D:\WebChatRoom\obj\Debug\net10.0\staticwebassets.build.json
 D:\WebChatRoom\obj\Debug\net10.0\staticwebassets.build.json.cache
 D:\WebChatRoom\obj\Debug\net10.0\staticwebassets.development.json
@@ -64,3 +61,6 @@ D:\WebChatRoom\obj\Debug\net10.0\refint\WebChatRoom.dll
 D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.pdb
 D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.genruntimeconfig.cache
 D:\WebChatRoom\obj\Debug\net10.0\ref\WebChatRoom.dll
+D:\WebChatRoom\obj\Debug\net10.0\compressed\izn2pqqjuh-{0}-aiqt7pa81u-aiqt7pa81u.gz
+D:\WebChatRoom\obj\Debug\net10.0\compressed\w1v62nubwr-{0}-0jjpi1wfo7-0jjpi1wfo7.gz
+D:\WebChatRoom\obj\Debug\net10.0\compressed\snhze1kyab-{0}-syp1uvc4i5-syp1uvc4i5.gz
