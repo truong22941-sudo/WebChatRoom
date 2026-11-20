@@ -25,487 +25,113 @@ body {
     color: var(--tg-text);
 }
 
-.hidden {
-    display: none !important;
-}
-
 /* Màn hình đăng nhập */
 .overlay {
     position: fixed;
     inset: 0;
-    background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+    background-color: #0f172a;
+    background-image:
+        radial-gradient(at 20% 25%, rgba(99, 102, 241, 0.24) 0px, transparent 50%),
+        radial-gradient(at 80% 75%, rgba(16, 185, 129, 0.16) 0px, transparent 50%);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 16px;
     z-index: 100;
 }
 
 .login-card {
-    background: var(--tg-bg-light);
-    padding: 36px 32px;
-    border-radius: 16px;
-    width: 360px;
+    background: #ffffff;
+    padding: 36px 32px 32px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 380px;
     text-align: center;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
 }
 
-.tg-logo-circle {
-    width: 72px;
-    height: 72px;
-    margin: 0 auto 16px;
-    border-radius: 50%;
-    background: var(--tg-blue);
-    color: #fff;
-    font-size: 34px;
+.brand-badge {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 14px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 16px rgba(51, 144, 236, 0.35);
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.28);
+}
+
+.status-pill {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #059669;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
 }
 
 .login-card h2 {
-    font-size: 21px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.3px;
     margin-bottom: 6px;
 }
 
 .login-card p {
     font-size: 14px;
-    color: var(--tg-muted);
-    margin-bottom: 20px;
+    color: #64748b;
+    margin-bottom: 22px;
 }
 
 .login-card input {
     width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #d7dce2;
-    border-radius: 10px;
+    padding: 13px 16px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
     font-size: 15px;
+    color: #0f172a;
     margin-bottom: 14px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 
 .login-card input:focus {
-    border-color: var(--tg-blue);
+    background: #ffffff;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
 }
 
 .login-card button {
     width: 100%;
-    padding: 12px;
-    background: var(--tg-blue);
-    color: #fff;
+    padding: 13px;
+    background: #0f172a;
+    color: #ffffff;
     border: none;
-    border-radius: 10px;
-    font-size: 14px;
+    border-radius: 12px;
+    font-size: 14.5px;
     font-weight: 600;
-    letter-spacing: 0.4px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .login-card button:hover {
-    background: var(--tg-blue-hover);
+    background: #1e293b;
+}
+
+.login-card button:active {
+    transform: scale(0.99);
 }
 
 .error-text {
-    color: #d93025 !important;
+    color: #dc2626 !important;
     margin-top: 12px;
     margin-bottom: 0 !important;
     font-size: 13px !important;
-}
-
-/* Khung ứng dụng chính */
-.app-container {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    background: var(--tg-bg-light);
-}
-
-/* Cột trái (Sidebar) */
-.sidebar {
-    width: 320px;
-    min-width: 280px;
-    border-right: 1px solid var(--tg-border);
-    display: flex;
-    flex-direction: column;
-    background: var(--tg-bg-light);
-}
-
-.sidebar-top {
-    padding: 12px;
-    border-bottom: 1px solid var(--tg-border);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.me-badge {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 2px 4px;
-}
-
-.me-name {
-    font-weight: 600;
-    font-size: 15px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    background: #f1f3f5;
-    border-radius: 20px;
-    padding: 7px 12px;
-    gap: 8px;
-}
-
-.search-icon {
-    font-size: 13px;
-    opacity: 0.65;
-}
-
-.search-box input {
-    border: none;
-    background: transparent;
-    outline: none;
-    width: 100%;
-    font-size: 14px;
-    color: var(--tg-text);
-}
-
-.sidebar-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px;
-}
-
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--tg-muted);
-    padding: 10px 10px 6px;
-    letter-spacing: 0.4px;
-}
-
-#create-room-btn {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: none;
-    background: #eef2f6;
-    color: var(--tg-blue);
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#create-room-btn:hover {
-    background: #dce7f3;
-}
-
-.chat-list {
-    list-style: none;
-}
-
-.chat-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-bottom: 2px;
-    transition: background 0.15s;
-}
-
-.chat-item:hover {
-    background: var(--tg-sidebar-hover);
-}
-
-.chat-item.active {
-    background: var(--tg-active-bg);
-    color: #fff;
-}
-
-.chat-item-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-}
-
-.chat-item-title {
-    font-size: 14px;
-    font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.avatar {
-    border-radius: 50%;
-    color: #fff;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    user-select: none;
-}
-
-.avatar-sm {
-    width: 30px;
-    height: 30px;
-    font-size: 13px;
-}
-
-.avatar-md {
-    width: 40px;
-    height: 40px;
-    font-size: 15px;
-}
-
-.unread-badge {
-    background: #34b7f1;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 12px;
-    flex-shrink: 0;
-}
-
-.chat-item.active .unread-badge {
-    background: #fff;
-    color: var(--tg-blue);
-}
-
-/* Khung chat bên phải */
-.chat-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    background-color: #8cb1d1;
-    background-image:
-        radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 0),
-        radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 0);
-    background-size: 28px 28px;
-    background-position: 0 0, 14px 14px;
-}
-
-.chat-header {
-    height: 58px;
-    padding: 0 18px;
-    background: var(--tg-bg-light);
-    border-bottom: 1px solid var(--tg-border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-shrink: 0;
-}
-
-.header-peer {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-}
-
-.header-info h3 {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.25;
-}
-
-.subtitle {
-    font-size: 12px;
-    color: var(--tg-muted);
-}
-
-.typing-indicator {
-    font-size: 12px;
-    font-style: italic;
-    color: var(--tg-blue);
-    white-space: nowrap;
-}
-
-/* Khu vực tin nhắn */
-.messages-box {
-    flex: 1;
-    padding: 16px 10%;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.msg-row {
-    display: flex;
-    flex-direction: column;
-    max-width: 65%;
-}
-
-.msg-row.mine {
-    align-self: flex-end;
-}
-
-.msg-row.other {
-    align-self: flex-start;
-}
-
-.msg-bubble {
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 14.5px;
-    line-height: 1.42;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-    word-wrap: break-word;
-}
-
-.msg-row.mine .msg-bubble {
-    background: var(--tg-my-msg);
-    border-bottom-right-radius: 3px;
-}
-
-.msg-row.other .msg-bubble {
-    background: var(--tg-other-msg);
-    border-bottom-left-radius: 3px;
-}
-
-.msg-sender {
-    display: block;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--tg-blue);
-    margin-bottom: 2px;
-}
-
-.msg-row.mine .msg-sender {
-    display: none;
-}
-
-.msg-time {
-    font-size: 11px;
-    color: #6c7883;
-    margin-left: 8px;
-    float: right;
-    margin-top: 4px;
-}
-
-.msg-bubble img {
-    max-width: 280px;
-    max-height: 280px;
-    border-radius: 8px;
-    display: block;
-    margin-bottom: 4px;
-}
-
-.file-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--tg-blue);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.file-link:hover {
-    text-decoration: underline;
-}
-
-/* Thanh Emoji nhanh */
-.emoji-bar {
-    background: var(--tg-bg-light);
-    border-top: 1px solid var(--tg-border);
-    padding: 8px 16px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.emoji-item {
-    font-size: 20px;
-    cursor: pointer;
-    padding: 2px 4px;
-    border-radius: 6px;
-    transition: transform 0.12s, background 0.12s;
-}
-
-.emoji-item:hover {
-    background: var(--tg-sidebar-hover);
-    transform: scale(1.15);
-}
-
-/* Thanh nhập liệu phía dưới */
-.chat-input-area {
-    padding: 10px 16px;
-    background: var(--tg-bg-light);
-    border-top: 1px solid var(--tg-border);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-.icon-btn {
-    width: 38px;
-    height: 38px;
-    border: none;
-    background: transparent;
-    border-radius: 50%;
-    font-size: 19px;
-    cursor: pointer;
-    color: var(--tg-muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s, color 0.15s;
-}
-
-.icon-btn:hover {
-    background: var(--tg-sidebar-hover);
-    color: var(--tg-blue);
-}
-
-#message-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-size: 14.5px;
-    padding: 8px 6px;
-    outline: none;
-    color: var(--tg-text);
-}
-
-.send-btn {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 50%;
-    background: var(--tg-blue);
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
-}
-
-.send-btn:hover {
-    background: var(--tg-blue-hover);
 }
