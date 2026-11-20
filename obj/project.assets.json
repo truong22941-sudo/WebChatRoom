@@ -8,24 +8,26 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\AI LINH\\.nuget\\packages\\": {}
+    "C:\\Users\\HOAI NAM\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\AI LINH\\WebChatRoom\\WebChatRoom.csproj",
+      "projectUniqueName": "D:\\WebChatRoom\\WebChatRoom.csproj",
       "projectName": "WebChatRoom",
-      "projectPath": "C:\\Users\\AI LINH\\WebChatRoom\\WebChatRoom.csproj",
-      "packagesPath": "C:\\Users\\AI LINH\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\AI LINH\\WebChatRoom\\obj\\",
+      "projectPath": "D:\\WebChatRoom\\WebChatRoom.csproj",
+      "packagesPath": "C:\\Users\\HOAI NAM\\.nuget\\packages\\",
+      "outputPath": "D:\\WebChatRoom\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\AI LINH\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\HOAI NAM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

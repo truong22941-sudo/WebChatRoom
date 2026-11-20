@@ -1,14 +1,17 @@
 // ================= TRẠNG THÁI ỨNG DỤNG =================
 let socket = null;
 let currentUser = "";
-let currentMode = "room";   // "room" (chat nhóm) hoặc "private" (chat 1-1)
+let currentMode = "room";   // "room" hoặc "private"
 let currentTarget = "General";
 let typingTimer = null;
 let lastTypingSent = 0;
 
-const unreadTargets = new Set(); // Lưu các phòng hoặc người nhắn riêng có tin chưa đọc
+const unreadTargets = new Set();
 let cachedRooms = ["General", "LapTrinhMang", "GiaiTri"];
 let cachedUsers = [];
+let searchFilter = "";
+
+const AVATAR_COLORS = ["#e17076", "#faa774", "#a695e7", "#7bc862", "#6ec9cb", "#65aadd", "#ee7aae"];
 
 // ================= LẤY PHẦN TỬ DOM =================
 const loginOverlay = document.getElementById("login-overlay");
@@ -16,22 +19,51 @@ const usernameInput = document.getElementById("username-input");
 const loginBtn = document.getElementById("login-btn");
 const loginError = document.getElementById("login-error");
 const appContainer = document.getElementById("app-container");
+
+const myAvatarEl = document.getElementById("my-avatar");
 const currentUserLabel = document.getElementById("current-user-label");
+const searchInput = document.getElementById("search-input");
 
 const roomListEl = document.getElementById("room-list");
 const userListEl = document.getElementById("user-list");
 const onlineCountEl = document.getElementById("online-count");
 const createRoomBtn = document.getElementById("create-room-btn");
 
+const headerAvatarEl = document.getElementById("header-avatar");
 const chatTitleEl = document.getElementById("chat-title");
 const chatSubtitleEl = document.getElementById("chat-subtitle");
 const messagesBox = document.getElementById("messages-box");
 const typingIndicator = document.getElementById("typing-indicator");
 
+const emojiToggleBtn = document.getElementById("emoji-toggle-btn");
+const emojiBar = document.getElementById("emoji-bar");
 const chatForm = document.getElementById("chat-form");
 const messageInput = document.getElementById("message-input");
 const attachBtn = document.getElementById("attach-btn");
 const fileInput = document.getElementById("file-input");
+
+// ================= TIỆN ÍCH AVATAR =================
+function getAvatarColor(name) {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+}
+
+function getInitials(name) {
+    if (!name) return "?";
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+}
+
+function applyAvatarStyle(el, label, isRoom = false) {
+    el.textContent = isRoom ? "#" : getInitials(label);
+    el.style.backgroundColor = isRoom ? "#3390ec" : getAvatarColor(label);
+}
 
 // ================= 1. ĐĂNG NHẬP & KẾT NỐI WEBSOCKET =================
 function connectAndLogin() {
@@ -41,19 +73,17 @@ function connectAndLogin() {
         return;
     }
 
-    loginError.textContent = "Đang kết nối tới Server...";
+    loginError.textContent = "Đang kết nối...";
     const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     socket = new WebSocket(`${wsProtocol}//${window.location.host}/ws`);
 
     socket.onopen = () => {
-        // Gửi gói tin LOGIN ngay khi mở kết nối WebSocket thành công
         sendPacket({ Type: "LOGIN", Sender: name });
     };
 
     socket.onmessage = (event) => {
         const raw = JSON.parse(event.data);
-        const pkt = normalizePacket(raw);
-        handleIncomingPacket(pkt);
+        handleIncomingPacket(normalizePacket(raw));
     };
 
     socket.onclose = () => {
@@ -68,7 +98,6 @@ usernameInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") connectAndLogin();
 });
 
-// Chuẩn hóa tên thuộc tính JSON (PascalCase từ WebSocket & camelCase từ HTTP API)
 function normalizePacket(p) {
     return {
         type: p.Type ?? p.type,
@@ -89,7 +118,7 @@ function sendPacket(packet) {
     }
 }
 
-// ================= 2. XỬ LÝ GÓI TIN NHẬN ĐƯỢC TỪ SERVER =================
+// ================= 2. XỬ LÝ GÓI TIN NHẬN TỪ SERVER =================
 async function handleIncomingPacket(pkt) {
     switch (pkt.type) {
         case "ERROR":
@@ -98,10 +127,10 @@ async function handleIncomingPacket(pkt) {
             break;
 
         case "USER_LIST":
-            // Nếu đang ở màn hình login thì chuyển vào giao diện chat chính
             if (!loginOverlay.classList.contains("hidden")) {
                 currentUser = usernameInput.value.trim();
                 currentUserLabel.textContent = currentUser;
+                applyAvatarStyle(myAvatarEl, currentUser, false);
                 loginOverlay.classList.add("hidden");
                 appContainer.classList.remove("hidden");
                 await switchConversation("room", "General");
@@ -136,7 +165,7 @@ async function handleIncomingPacket(pkt) {
             const isMatchRoom = !pkt.receiver && currentMode === "room" && currentTarget === pkt.room;
             const isMatchPrivate = pkt.receiver === currentUser && currentMode === "private" && currentTarget === pkt.sender;
             if (isMatchRoom || isMatchPrivate) {
-                typingIndicator.textContent = `${pkt.sender} đang soạn tin...`;
+                typingIndicator.textContent = `${pkt.sender} đang nhập...`;
                 clearTimeout(typingTimer);
                 typingTimer = setTimeout(() => {
                     typingIndicator.textContent = "";
@@ -146,26 +175,26 @@ async function handleIncomingPacket(pkt) {
     }
 }
 
-// ================= 3. CHUYỂN PHÒNG / CHAT RIÊNG & TẢI LỊCH SỬ (HTTP API) =================
+// ================= 3. CHUYỂN CUỘC TRÒ CHUYỆN & TẢI LỊCH SỬ =================
 async function switchConversation(mode, target) {
     currentMode = mode;
     currentTarget = target;
     unreadTargets.delete(`${mode}:${target}`);
     typingIndicator.textContent = "";
 
+    chatTitleEl.textContent = target;
     if (mode === "room") {
-        chatTitleEl.textContent = `# ${target}`;
-        chatSubtitleEl.textContent = "Phòng chat nhóm (Broadcast)";
+        chatSubtitleEl.textContent = "Phòng chat nhóm";
+        applyAvatarStyle(headerAvatarEl, target, true);
         sendPacket({ Type: "JOIN_ROOM", Sender: currentUser, Room: target });
     } else {
-        chatTitleEl.textContent = target;
-        chatSubtitleEl.textContent = "Trò chuyện riêng tư 1-1 (Unicast)";
+        chatSubtitleEl.textContent = "Trò chuyện trực tiếp";
+        applyAvatarStyle(headerAvatarEl, target, false);
     }
 
     renderSidebar();
     messagesBox.innerHTML = "";
 
-    // Gọi HTTP GET /api/history để nạp tin nhắn cũ
     const url = `/api/history?mode=${encodeURIComponent(mode)}&target=${encodeURIComponent(target)}&user=${encodeURIComponent(currentUser)}`;
     const res = await fetch(url);
     if (res.ok) {
@@ -175,13 +204,29 @@ async function switchConversation(mode, target) {
 }
 
 createRoomBtn.addEventListener("click", () => {
-    const roomName = prompt("Nhập tên phòng chat mới (không dấu cách càng đẹp):");
+    const roomName = prompt("Nhập tên phòng chat mới:");
     if (roomName && roomName.trim()) {
         switchConversation("room", roomName.trim());
     }
 });
 
-// ================= 4. GỬI TIN NHẮN, TYPING & UPLOAD FILE =================
+searchInput.addEventListener("input", () => {
+    searchFilter = searchInput.value.trim().toLowerCase();
+    renderSidebar();
+});
+
+// ================= 4. EMOJI, GỬI TIN NHẮN & UPLOAD FILE =================
+emojiToggleBtn.addEventListener("click", () => {
+    emojiBar.classList.toggle("hidden");
+});
+
+document.querySelectorAll(".emoji-item").forEach(item => {
+    item.addEventListener("click", () => {
+        messageInput.value += item.textContent;
+        messageInput.focus();
+    });
+});
+
 chatForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const text = messageInput.value.trim();
@@ -204,9 +249,9 @@ chatForm.addEventListener("submit", (e) => {
     }
 
     messageInput.value = "";
+    emojiBar.classList.add("hidden");
 });
 
-// Gửi tín hiệu đang gõ phím (giới hạn 1.5 giây gửi tối đa 1 lần để tránh spam mạng)
 messageInput.addEventListener("input", () => {
     const now = Date.now();
     if (now - lastTypingSent < 1500) return;
@@ -220,7 +265,6 @@ messageInput.addEventListener("input", () => {
     });
 });
 
-// Xử lý chọn và upload ảnh/tệp qua HTTP POST /api/upload
 attachBtn.addEventListener("click", () => fileInput.click());
 
 fileInput.addEventListener("change", async () => {
@@ -238,55 +282,61 @@ fileInput.addEventListener("change", async () => {
         }
         const data = await res.json();
 
-        const packet = {
+        sendPacket({
             Type: currentMode === "room" ? "CHAT_GROUP" : "CHAT_PRIVATE",
             Sender: currentUser,
             Room: currentMode === "room" ? currentTarget : "General",
             Receiver: currentMode === "private" ? currentTarget : null,
             Content: data.url,
             FileName: data.fileName
-        };
-        sendPacket(packet);
+        });
     } finally {
         fileInput.value = "";
     }
 });
 
-// ================= 5. HIỂN THỊ GIAO DIỆN (UI RENDERING) =================
+// ================= 5. VẼ SIDEBAR & BONG BÓNG TIN NHẮN =================
 function renderSidebar() {
-    // Vẽ danh sách phòng nhóm
     roomListEl.innerHTML = "";
-    cachedRooms.forEach(room => {
+    const filteredRooms = cachedRooms.filter(r => r.toLowerCase().includes(searchFilter));
+
+    filteredRooms.forEach(room => {
         const li = document.createElement("li");
         const isActive = currentMode === "room" && currentTarget === room;
-        li.className = `nav-item ${isActive ? "active" : ""}`;
+        li.className = `chat-item ${isActive ? "active" : ""}`;
 
         const hasUnread = unreadTargets.has(`room:${room}`);
+        const badgeHtml = hasUnread ? '<span class="unread-badge">Mới</span>' : "";
+
         li.innerHTML = `
-            <span class="nav-item-left"># ${escapeHtml(room)}</span>
-            ${hasUnread ? '<span class="unread-badge">Mới</span>' : ""}
+            <div class="chat-item-left">
+                <div class="avatar avatar-sm" style="background:#3390ec">#</div>
+                <span class="chat-item-title">${escapeHtml(room)}</span>
+            </div>
+            ${badgeHtml}
         `;
         li.onclick = () => switchConversation("room", room);
         roomListEl.appendChild(li);
     });
 
-    // Vẽ danh sách người dùng online (trừ bản thân)
-    const others = cachedUsers.filter(u => u !== currentUser);
+    const others = cachedUsers.filter(u => u !== currentUser && u.toLowerCase().includes(searchFilter));
     onlineCountEl.textContent = cachedUsers.length;
     userListEl.innerHTML = "";
 
     others.forEach(user => {
         const li = document.createElement("li");
         const isActive = currentMode === "private" && currentTarget === user;
-        li.className = `nav-item ${isActive ? "active" : ""}`;
+        li.className = `chat-item ${isActive ? "active" : ""}`;
 
         const hasUnread = unreadTargets.has(`private:${user}`);
+        const badgeHtml = hasUnread ? '<span class="unread-badge">Mới</span>' : "";
+
         li.innerHTML = `
-            <span class="nav-item-left">
-                <span class="status-dot online"></span>
-                ${escapeHtml(user)}
-            </span>
-            ${hasUnread ? '<span class="unread-badge">Mới</span>' : ""}
+            <div class="chat-item-left">
+                <div class="avatar avatar-sm" style="background:${getAvatarColor(user)}">${escapeHtml(getInitials(user))}</div>
+                <span class="chat-item-title">${escapeHtml(user)}</span>
+            </div>
+            ${badgeHtml}
         `;
         li.onclick = () => switchConversation("private", user);
         userListEl.appendChild(li);
@@ -298,25 +348,41 @@ function appendMessage(pkt) {
     const row = document.createElement("div");
     row.className = `msg-row ${isMine ? "mine" : "other"}`;
 
-    const meta = document.createElement("div");
-    meta.className = "msg-meta";
-    meta.textContent = `${isMine ? "Bạn" : pkt.sender} • ${pkt.timestamp || ""}`;
-
     const bubble = document.createElement("div");
     bubble.className = "msg-bubble";
+
+    const senderEl = document.createElement("span");
+    senderEl.className = "msg-sender";
+    senderEl.style.color = getAvatarColor(pkt.sender || "User");
+    senderEl.textContent = pkt.sender;
+    bubble.appendChild(senderEl);
 
     if (pkt.fileName) {
         const isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(pkt.fileName);
         if (isImg) {
-            bubble.innerHTML = `<img src="${pkt.content}" alt="${escapeHtml(pkt.fileName)}">`;
+            const img = document.createElement("img");
+            img.src = pkt.content;
+            img.alt = pkt.fileName;
+            bubble.appendChild(img);
         } else {
-            bubble.innerHTML = `<a class="file-link" href="${pkt.content}" download="${escapeHtml(pkt.fileName)}">📄 ${escapeHtml(pkt.fileName)}</a>`;
+            const link = document.createElement("a");
+            link.className = "file-link";
+            link.href = pkt.content;
+            link.download = pkt.fileName;
+            link.textContent = `📎 ${pkt.fileName}`;
+            bubble.appendChild(link);
         }
     } else {
-        bubble.textContent = pkt.content;
+        const textNode = document.createElement("span");
+        textNode.textContent = pkt.content;
+        bubble.appendChild(textNode);
     }
 
-    row.appendChild(meta);
+    const timeEl = document.createElement("span");
+    timeEl.className = "msg-time";
+    timeEl.textContent = pkt.timestamp || "";
+    bubble.appendChild(timeEl);
+
     row.appendChild(bubble);
     messagesBox.appendChild(row);
     messagesBox.scrollTop = messagesBox.scrollHeight;

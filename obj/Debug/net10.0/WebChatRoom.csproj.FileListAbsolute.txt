@@ -30,3 +30,37 @@ C:\Users\AI LINH\WebChatRoom\obj\Debug\net10.0\ref\WebChatRoom.dll
 C:\Users\AI LINH\WebChatRoom\obj\Debug\net10.0\compressed\w1v62nubwr-{0}-22fyeafn0o-22fyeafn0o.gz
 C:\Users\AI LINH\WebChatRoom\obj\Debug\net10.0\compressed\snhze1kyab-{0}-fwkcykhxsq-fwkcykhxsq.gz
 C:\Users\AI LINH\WebChatRoom\obj\Debug\net10.0\compressed\izn2pqqjuh-{0}-dgja4eidwr-dgja4eidwr.gz
+D:\WebChatRoom\bin\Debug\net10.0\appsettings.Development.json
+D:\WebChatRoom\bin\Debug\net10.0\appsettings.json
+D:\WebChatRoom\bin\Debug\net10.0\Data\history.json
+D:\WebChatRoom\bin\Debug\net10.0\WebChatRoom.staticwebassets.runtime.json
+D:\WebChatRoom\bin\Debug\net10.0\WebChatRoom.staticwebassets.endpoints.json
+D:\WebChatRoom\bin\Debug\net10.0\WebChatRoom.exe
+D:\WebChatRoom\bin\Debug\net10.0\WebChatRoom.deps.json
+D:\WebChatRoom\bin\Debug\net10.0\WebChatRoom.runtimeconfig.json
+D:\WebChatRoom\bin\Debug\net10.0\WebChatRoom.dll
+D:\WebChatRoom\bin\Debug\net10.0\WebChatRoom.pdb
+D:\WebChatRoom\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.GeneratedMSBuildEditorConfig.editorconfig
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.AssemblyInfoInputs.cache
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.AssemblyInfo.cs
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.csproj.CoreCompileInputs.cache
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.MvcApplicationPartsAssemblyInfo.cache
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.sourcelink.json
+D:\WebChatRoom\obj\Debug\net10.0\rjimswa.dswa.cache.json
+D:\WebChatRoom\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+D:\WebChatRoom\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+D:\WebChatRoom\obj\Debug\net10.0\scopedcss\bundle\WebChatRoom.styles.css
+D:\WebChatRoom\obj\Debug\net10.0\compressed\izn2pqqjuh-{0}-0u29zyfu6j-0u29zyfu6j.gz
+D:\WebChatRoom\obj\Debug\net10.0\compressed\w1v62nubwr-{0}-t4c95qx1pa-t4c95qx1pa.gz
+D:\WebChatRoom\obj\Debug\net10.0\compressed\snhze1kyab-{0}-lyycqich2x-lyycqich2x.gz
+D:\WebChatRoom\obj\Debug\net10.0\staticwebassets.build.json
+D:\WebChatRoom\obj\Debug\net10.0\staticwebassets.build.json.cache
+D:\WebChatRoom\obj\Debug\net10.0\staticwebassets.development.json
+D:\WebChatRoom\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+D:\WebChatRoom\obj\Debug\net10.0\swae.build.ex.cache
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.dll
+D:\WebChatRoom\obj\Debug\net10.0\refint\WebChatRoom.dll
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.pdb
+D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.genruntimeconfig.cache
+D:\WebChatRoom\obj\Debug\net10.0\ref\WebChatRoom.dll

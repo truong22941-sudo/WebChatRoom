@@ -3,66 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Chat Room - Lập Trình Mạng</title>
+    <title>Telegram Web Chat</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Màn hình Đăng nhập -->
+    <!-- Màn hình đăng nhập phong cách Telegram -->
     <div id="login-overlay" class="overlay">
         <div class="login-card">
-            <h2>Web Chat Room</h2>
-            <p>Nhập tên hiển thị để tham gia trò chuyện</p>
-            <input type="text" id="username-input" placeholder="Ví dụ: Truong, Minh..." maxlength="20" autocomplete="off">
-            <button id="login-btn">Vào phòng chat</button>
+            <div class="tg-logo-circle">✈</div>
+            <h2>Telegram Chat Room</h2>
+            <p>Nhập tên hiển thị để bắt đầu trò chuyện</p>
+            <input type="text" id="username-input" placeholder="Tên của bạn (VD: Truong)..." maxlength="20" autocomplete="off">
+            <button id="login-btn">TIẾP TỤC</button>
             <p id="login-error" class="error-text"></p>
         </div>
     </div>
 
-    <!-- Giao diện Chat chính -->
+    <!-- Giao diện chính -->
     <div id="app-container" class="app-container hidden">
-        <!-- Cột trái: Danh sách phòng & Người dùng online -->
+        <!-- Cột trái: Tìm kiếm, Phòng chat, Người dùng online -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="user-profile">
-                    <span class="status-dot online"></span>
-                    <strong id="current-user-label">User</strong>
+            <div class="sidebar-top">
+                <div class="me-badge">
+                    <div id="my-avatar" class="avatar avatar-sm">U</div>
+                    <span id="current-user-label" class="me-name">User</span>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Tìm kiếm phòng hoặc người dùng..." autocomplete="off">
                 </div>
             </div>
 
-            <div class="sidebar-section">
-                <div class="section-title">
-                    <span>PHÒNG CHAT NHÓM</span>
-                    <button id="create-room-btn" title="Tạo phòng mới">+</button>
+            <div class="sidebar-scroll">
+                <div class="section-header">
+                    <span>KÊNH &amp; PHÒNG CHAT</span>
+                    <button id="create-room-btn" title="Tạo phòng chat mới">+</button>
                 </div>
-                <ul id="room-list" class="nav-list"></ul>
-            </div>
+                <ul id="room-list" class="chat-list"></ul>
 
-            <div class="sidebar-section">
-                <div class="section-title">
-                    <span>TRỰC TUYẾN (<span id="online-count">0</span>)</span>
+                <div class="section-header">
+                    <span>ĐANG TRỰC TUYẾN (<span id="online-count">0</span>)</span>
                 </div>
-                <ul id="user-list" class="nav-list"></ul>
+                <ul id="user-list" class="chat-list"></ul>
             </div>
         </aside>
 
         <!-- Khung chat bên phải -->
         <main class="chat-main">
             <header class="chat-header">
-                <div>
-                    <h3 id="chat-title"># General</h3>
-                    <span id="chat-subtitle" class="subtitle">Phòng chat nhóm</span>
+                <div class="header-peer">
+                    <div id="header-avatar" class="avatar avatar-md">#</div>
+                    <div class="header-info">
+                        <h3 id="chat-title">General</h3>
+                        <span id="chat-subtitle" class="subtitle">Phòng chat nhóm</span>
+                    </div>
                 </div>
+                <div id="typing-indicator" class="typing-indicator"></div>
             </header>
 
             <div id="messages-box" class="messages-box"></div>
 
-            <div id="typing-indicator" class="typing-indicator"></div>
+            <!-- Thanh chọn emoji nhanh -->
+            <div id="emoji-bar" class="emoji-bar hidden">
+                <span class="emoji-item">👍</span>
+                <span class="emoji-item">❤️</span>
+                <span class="emoji-item">😂</span>
+                <span class="emoji-item">🔥</span>
+                <span class="emoji-item">😮</span>
+                <span class="emoji-item">😢</span>
+                <span class="emoji-item">🎉</span>
+                <span class="emoji-item">🙏</span>
+                <span class="emoji-item">💻</span>
+                <span class="emoji-item">🚀</span>
+            </div>
 
             <form id="chat-form" class="chat-input-area">
                 <input type="file" id="file-input" class="hidden">
-                <button type="button" id="attach-btn" class="icon-btn" title="Gửi ảnh hoặc tệp">📎</button>
-                <input type="text" id="message-input" placeholder="Nhập tin nhắn..." autocomplete="off">
-                <button type="submit" class="send-btn">Gửi</button>
+                <button type="button" id="emoji-toggle-btn" class="icon-btn" title="Emoji">😊</button>
+                <button type="button" id="attach-btn" class="icon-btn" title="Đính kèm ảnh hoặc tệp">📎</button>
+                <input type="text" id="message-input" placeholder="Nhắn tin..." autocomplete="off">
+                <button type="submit" class="send-btn" title="Gửi">➤</button>
             </form>
         </main>
     </div>
