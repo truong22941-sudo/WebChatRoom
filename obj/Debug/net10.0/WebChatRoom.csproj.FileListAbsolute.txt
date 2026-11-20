@@ -62,5 +62,5 @@ D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.pdb
 D:\WebChatRoom\obj\Debug\net10.0\WebChatRoom.genruntimeconfig.cache
 D:\WebChatRoom\obj\Debug\net10.0\ref\WebChatRoom.dll
 D:\WebChatRoom\obj\Debug\net10.0\compressed\izn2pqqjuh-{0}-aiqt7pa81u-aiqt7pa81u.gz
-D:\WebChatRoom\obj\Debug\net10.0\compressed\w1v62nubwr-{0}-0jjpi1wfo7-0jjpi1wfo7.gz
 D:\WebChatRoom\obj\Debug\net10.0\compressed\snhze1kyab-{0}-syp1uvc4i5-syp1uvc4i5.gz
+D:\WebChatRoom\obj\Debug\net10.0\compressed\w1v62nubwr-{0}-pt80zbtayo-pt80zbtayo.gz
