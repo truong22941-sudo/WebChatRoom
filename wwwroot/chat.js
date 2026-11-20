@@ -66,6 +66,8 @@ function applyAvatarStyle(el, label, isRoom = false) {
 }
 
 // ================= 1. ĐĂNG NHẬP & KẾT NỐI WEBSOCKET =================
+let connectTimeout = null;
+
 function connectAndLogin() {
     const name = usernameInput.value.trim();
     if (!name) {
@@ -73,11 +75,27 @@ function connectAndLogin() {
         return;
     }
 
-    loginError.textContent = "Đang kết nối...";
+    if (socket && (socket.readyState === WebSocket.CONNECTING || socket.readyState === WebSocket.OPEN)) {
+        socket.close();
+    }
+
+    loginBtn.disabled = true;
+    loginError.textContent = "Đang kết nối (có thể mất ~40s nếu server đang khởi động)...";
+
     const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     socket = new WebSocket(`${wsProtocol}//${window.location.host}/ws`);
 
+    clearTimeout(connectTimeout);
+    connectTimeout = setTimeout(() => {
+        if (socket && socket.readyState !== WebSocket.OPEN) {
+            socket.close();
+            loginBtn.disabled = false;
+            loginError.textContent = "Hết thời gian chờ kết nối. Vui lòng bấm thử lại!";
+        }
+    }, 50000);
+
     socket.onopen = () => {
+        clearTimeout(connectTimeout);
         sendPacket({ Type: "LOGIN", Sender: name });
     };
 
@@ -86,8 +104,20 @@ function connectAndLogin() {
         handleIncomingPacket(normalizePacket(raw));
     };
 
+    socket.onerror = () => {
+        clearTimeout(connectTimeout);
+        loginBtn.disabled = false;
+        loginError.textContent = "Không thể kết nối tới máy chủ WebSocket. Vui lòng thử lại!";
+    };
+
     socket.onclose = () => {
-        if (!appContainer.classList.contains("hidden")) {
+        clearTimeout(connectTimeout);
+        loginBtn.disabled = false;
+        if (!loginOverlay.classList.contains("hidden")) {
+            if (loginError.textContent.startsWith("Đang kết nối")) {
+                loginError.textContent = "Kết nối bị ngắt trước khi đăng nhập. Vui lòng bấm thử lại!";
+            }
+        } else {
             alert("Mất kết nối với Server! Vui lòng tải lại trang.");
         }
     };
